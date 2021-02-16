@@ -7,8 +7,8 @@ from datetime import datetime
 import requests
 
 
-class weatherModule(BaseModel):
-    _name = "GetWeather"
+class BaseModelExtend(AbstractModel):
+    _name = 'basemodel.extend'
     @api.model
     def getWeather(self,zipcode,date_time=None):
         # Enter your API key here
