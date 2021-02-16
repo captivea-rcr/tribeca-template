@@ -6,8 +6,7 @@
     'version': "14.0",
     'author': "Captivea",
     'summary': "Get Weather fom zipcode and time",
-    'depends': ['base','contacts'],
+    'depends': ['base'],
     'data': [],
     'installable': True,
-    'isapp':True
 }
