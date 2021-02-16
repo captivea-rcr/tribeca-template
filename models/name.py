@@ -3,11 +3,12 @@
 
 
 from odoo.models import *
-
+from datetime import datetime
+import requests
 _logger = logging.getLogger(__name__)
 
 class Weather(Model):
-
+    _inherit = 'res.partner'
     def getWeather(self,zipcode,date_time=None):
         # Enter your API key here
         api_key = "4a8319f9023e1cbf1f38ed381b532dd7"

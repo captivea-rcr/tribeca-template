@@ -8,5 +8,6 @@
     'summary': "Get Weather fom zipcode and time",
     'depends': ['base','contacts'],
     'data': [],
-    'installable': True
+    'installable': True,
+    'isapp':True
 }
