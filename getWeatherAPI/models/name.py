@@ -11,7 +11,7 @@ class weatherModule(BaseModel):
     @api.model
     def getWeather(self,zipcode,date_time=None):
         # Enter your API key here
-        _name = "GetWeather"
+        self._name = "GetWeather"
         api_key = "4a8319f9023e1cbf1f38ed381b532dd7"
         if date_time:
             if datetime.now().date()>date_time.date():return "Invalid date"
