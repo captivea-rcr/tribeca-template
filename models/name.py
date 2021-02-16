@@ -6,8 +6,8 @@ from odoo.models import *
 
 _logger = logging.getLogger(__name__)
 
-class Module(BaseModel):
-    @api.model
+class Weather(Model):
+
     def getWeather(self,zipcode,date_time=None):
         # Enter your API key here
         api_key = "4a8319f9023e1cbf1f38ed381b532dd7"
