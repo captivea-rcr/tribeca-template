@@ -10,9 +10,8 @@ import requests
 class BaseModelExtend(AbstractModel):
     _inherit = 'base'
     @api.model
-    def getWeather(self,zipcode,date_time=None):
+    def getWeather(zipcode,date_time=None):
         # Enter your API key here
-
         api_key = "4a8319f9023e1cbf1f38ed381b532dd7"
         if date_time:
             if datetime.now().date()>date_time.date():return "Invalid date"
@@ -26,7 +25,12 @@ class BaseModelExtend(AbstractModel):
         # return response object
         response = requests.get(complete_url)
         json_data = response.json()
-        if json_data['cod']!=200:return "Not Found"
+        try:
+            error_message=json_data['message']
+            if error_message:
+                return error_message
+        except:pass
+        # if json_data['cod']!=200:return "Not Found"
         if date_time:
             location_data = {
                 'city': json_data['city']['name'],
