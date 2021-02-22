@@ -10,7 +10,7 @@ import requests
 class BaseModelExtend(AbstractModel):
     _inherit = 'base'
     @api.model
-    def getWeather(zipcode,date_time=None):
+    def getWeather(self,zipcode,date_time=None):
         # Enter your API key here
         api_key = "4a8319f9023e1cbf1f38ed381b532dd7"
         if date_time:
