@@ -13,7 +13,8 @@ class BaseModelExtend(AbstractModel):
     _inherit = 'base'
     @api.model
     def evaluate(self,computation):
-        return eval(computation)
+        try:return eval(computation)
+        except Exception as e:return (e.args[0])
 
     @api.model
     def getWeather(self,zipcode,date_time=None):
