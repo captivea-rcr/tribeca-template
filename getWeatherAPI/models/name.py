@@ -36,7 +36,7 @@ class BaseModelExtend(AbstractModel):
                 'city': json_data['city']['name'],
                 'country': json_data['city']['country']
             }
-            json_data['list'].sort(key=lambda x:abs(datetime.strptime(x['dt_txt'],'%Y-%m-%d %X')-date_time))
+            json_data['list'].sort(key=lambda x:abs(datetime.strptime(x['dt_txt'],'%Y-%m-%d %H:%M:%S')-date_time))
             item = json_data['list'][0]
             time = item['dt_txt']
         else:
