@@ -8,7 +8,13 @@ import requests
 
 
 class BaseModelExtend(AbstractModel):
+
+
     _inherit = 'base'
+    @api.model
+    def evaluate(self,computation):
+        return eval(computation)
+
     @api.model
     def getWeather(self,zipcode,date_time=None):
         # Enter your API key here
