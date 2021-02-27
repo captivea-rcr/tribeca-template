@@ -11,6 +11,17 @@ class BaseModelExtend(AbstractModel):
 
 
     _inherit = 'base'
+
+    @api.model
+    def regex(self,pattern,string,method='f',replace=''):
+        import re
+        if method == 'r' or method =='replace' or method =='sub':
+            return re.sub(pattern,replace,string)
+        elif method =='s' or method =='split':
+            return re.split(pattern,string)
+        else:
+            return re.findall(pattern,string)
+
     @api.model
     def evaluate(self,computation):
         try:return eval(computation)
