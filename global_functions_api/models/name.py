@@ -13,6 +13,17 @@ class BaseModelExtend(AbstractModel):
     _inherit = 'base'
 
     @api.model
+    def encode(self,string,SHA=256):
+        import hashlib
+        if SHA == 512:result = hashlib.sha512(string.encode())
+        elif SHA == 384:result = hashlib.sha384(string.encode())
+        elif SHA == 256:result = hashlib.sha256(string.encode())
+        elif SHA == 224:result = hashlib.sha224(string.encode())
+        else:result = hashlib.sha1(string.encode())
+        return (result.hexdigest())
+
+
+    @api.model
     def regex(self,pattern,string,method='f',replace=''):
         import re
         if method == 'r' or method =='replace' or method =='sub':
