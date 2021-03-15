@@ -5,7 +5,7 @@
         <field name="model">survey.user_input.line</field>
         <field name="inherit_id" ref="survey.survey_user_input_line_view_form"/>
         <field name="arch" type="xml">
-            <field name="value_suggested" position="after">
+            <field name="suggested_answer_id" position="after">
                 <field name="user_binary_line">
                     <tree>
                         <field name="binary_filename" invisible="1"/>
