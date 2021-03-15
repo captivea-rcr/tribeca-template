@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="assets_backend" inherit_id="web.assets_backend" name="Survey assets">
+	    <xpath expr="." position="inside">
+	    	<link rel="stylesheet" href="/survey_file_upload_field/static/src/css/survey_result.css"/>
+	    </xpath>
+	</template>
+
+    <template id="survey_assets" inherit_id="survey.survey_assets" name="Survey assets">
+        <xpath expr="." position="inside">
+	    	<link rel="stylesheet" href="/survey_file_upload_field/static/src/css/survey_front_result.css"/>
+            <script type="text/javascript" src="/survey_file_upload_field/static/src/js/survey_result.js" />
+        </xpath>
+    </template>
+</odoo>

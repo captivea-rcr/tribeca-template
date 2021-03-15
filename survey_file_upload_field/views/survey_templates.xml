@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="upload_file" name="Upload File">
+		<input type="file" class="form-control" t-att-multiple="question.upload_multiple_file" t-att-name="prefix"/>
+    </template>
+
+    <template id="review_upload_file" name="Review Upload File">
+    	<div class="file_container" t-att-name="prefix" file="true"></div>
+    </template>
+
+    <template id="page" name="Page" inherit_id="survey.page">
+		<xpath expr="//form[hasclass('js_surveyform')]" position="attributes">
+			<attribute name="enctype">multipart/form-data</attribute>
+		</xpath>
+    </template>
+
+    <template id="question" name="Question" inherit_id="survey.question">
+		<xpath expr="//div[hasclass('js_question-wrapper')]/t[last()]" position="after">
+			<t t-if="question.question_type == 'upload_file'"><t t-call="survey_file_upload_field.upload_file"/></t>
+		</xpath>
+    </template>
+
+    <template id="survey_print" name="Survey" inherit_id="survey.survey_print">
+    	<xpath expr="//div[hasclass('js_surveyform')]/t/t/div[hasclass('js_question-wrapper')]" position="inside">
+			<t t-if="question.question_type == 'upload_file'"><t t-call="survey_file_upload_field.review_upload_file"/></t>
+		</xpath>
+    </template>
+</odoo>
