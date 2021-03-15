@@ -6,12 +6,12 @@ from odoo import api, fields, models
 class SurveyBinary(models.Model):
     _name = 'survey.binary'
 
-    user_input_line_id = fields.Many2one('survey.user_input.line', string="Answers")
+    user_input_line_id = fields.Many2one('survey.user_input_line', string="Answers")
     binary_filename = fields.Char(string="Upload File Name")
     binary_data = fields.Binary(string="Upload File Data")
 
 class SurveyUserInputLine(models.Model):
-    _inherit = "survey.user_input.line"
+    _inherit = "survey.user_input_line"
 
     user_binary_line = fields.One2many('survey.binary', 'user_input_line_id', string='Binary Files')
     answer_type = fields.Selection(selection_add=[('upload_file', 'Upload File')])
