@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="survey_user_input_line_attachment_field_form" model="ir.ui.view">
-        <field name="name">	survey_user_input_line_view_form</field>
+        <field name="name">survey.survey_user_input_line_view_form</field>
         <field name="model">survey.user_input.line</field>
-        <field name="inherit_id" ref="	survey_user_input_line_view_form"/>
+        <field name="inherit_id" ref="survey.survey_user_input_line_view_form"/>
         <field name="arch" type="xml">
             <field name="value_suggested" position="after">
                 <field name="user_binary_line">
