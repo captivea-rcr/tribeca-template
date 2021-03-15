@@ -14,13 +14,13 @@
 <!--		</xpath>-->
 <!--    </template>-->
 
-    <template id="question" name="Question" inherit_id="survey.question">
+    <template id="question" name="Question" inherit_id="survey.question_container">
 		<xpath expr="//div[hasclass('js_question-wrapper')]/t[last()]" position="after">
 			<t t-if="question.question_type == 'upload_file'"><t t-call="survey_file_upload_field.upload_file"/></t>
 		</xpath>
     </template>
 
-    <template id="survey_print" name="Survey" inherit_id="survey.survey_print">
+    <template id="survey_print" name="Survey" inherit_id="survey.survey.survey_page_print">
     	<xpath expr="//div[hasclass('js_surveyform')]/t/t/div[hasclass('js_question-wrapper')]" position="inside">
 			<t t-if="question.question_type == 'upload_file'"><t t-call="survey_file_upload_field.review_upload_file"/></t>
 		</xpath>
