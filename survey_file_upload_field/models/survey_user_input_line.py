@@ -6,7 +6,7 @@ from odoo import api, fields, models
 class SurveyBinary(models.Model):
     _name = 'survey.binary'
 
-    user_input_line_id = fields.Many2one('survey.user_input_line', string="Answers")
+    user_input_line_id = fields.Many2one('survey.user_input.line', string="Answers")
     binary_filename = fields.Char(string="Upload File Name")
     binary_data = fields.Binary(string="Upload File Data")
 
