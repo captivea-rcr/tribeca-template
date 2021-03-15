@@ -8,11 +8,11 @@
     	<div class="file_container" t-att-name="prefix" file="true"></div>
     </template>
 
-    <template id="page" name="Page" inherit_id="survey.page">
-		<xpath expr="//form[hasclass('js_surveyform')]" position="attributes">
-			<attribute name="enctype">multipart/form-data</attribute>
-		</xpath>
-    </template>
+<!--    <template id="page" name="Page" inherit_id="survey.page">-->
+<!--		<xpath expr="//form[hasclass('js_surveyform')]" position="attributes">-->
+<!--			<attribute name="enctype">multipart/form-data</attribute>-->
+<!--		</xpath>-->
+<!--    </template>-->
 
     <template id="question" name="Question" inherit_id="survey.question">
 		<xpath expr="//div[hasclass('js_question-wrapper')]/t[last()]" position="after">
