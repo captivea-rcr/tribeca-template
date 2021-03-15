@@ -11,7 +11,7 @@ class SurveyBinary(models.Model):
     binary_data = fields.Binary(string="Upload File Data")
 
 class SurveyUserInputLine(models.Model):
-    _inherit = "survey.user_input_line"
+    _inherit = "survey.user_input.line"
 
     user_binary_line = fields.One2many('survey.binary', 'user_input_line_id', string='Binary Files')
     answer_type = fields.Selection(selection_add=[('upload_file', 'Upload File')])
