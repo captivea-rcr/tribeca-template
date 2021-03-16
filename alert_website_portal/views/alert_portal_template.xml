@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="portal_my_home_menu_alert" name="Portal layout : Alert menu entries" inherit_id="portal.portal_breadcrumbs" priority="50">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'Alert' or 'x_alert'" t-attf-class="breadcrumb-item #{'active ' if not alert_id else ''}">
+                <a t-if="alert_id" t-attf-href="/my/alerts?{{ keep_query() }}">Alerts</a>
+                <t t-else="">Alerts</t>
+            </li>
+            <li t-if="alert_id" class="breadcrumb-item active">
+                #<span t-field="alert_id.id"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_alert" name="Portal My Home : Alerts" inherit_id="portal.portal_my_home" priority="50">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="alert_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Alerts</t>
+                <t t-set="url" t-value="'/my/alerts'"/>
+                <t t-set="count" t-value="alert_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_alert" name="Alert">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Alert</t>
+            </t>
+            <div t-if="not alerts" class="alert alert-info">
+                There are currently no Alerts in your account.
+            </div>
+            <t t-if="alerts" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th class="text-right">ID</th>
+                        <th class="w-100">Subject</th><th/>
+                        <th class="w-100">From</th><th/>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <t t-foreach="alerts" t-as="alert">
+                    <tr>
+                        <td class="text-right"><a t-attf-href="/my/alert/#{alert.id}"><small>#</small><t t-esc="alert.id"/></a></td>
+                        <td><a t-attf-href="/my/alert/#{alert.id}"><span t-field="alert.subject"/></a></td><td/>
+                        <td><a t-attf-href="/my/alert/#{alert.id}"><span t-field="alert.email_from"/></a></td><td/>
+                        <td class="text-center"><span class="badge badge-pill badge-info" t-field="alert.state"/></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="alert_followup" name="Alerts">
+        <t t-call="portal.portal_layout">
+            <t t-set="wrapwrap_classes" t-value="'o_portal_bg_dark'"/>
+
+            <t t-set="o_portal_fullwidth_alert">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=x_alert&amp;id=%s&amp;view_type=form' % (alert_id.id)"/>
+                </t>
+            </t>
+
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-md">
+                            <h5 class="mb-1 mb-md-0">
+                                <span t-field="alert_id.subject"/>
+                                <small class="text-muted"> (#<span t-field="alert_id.id"/>)</small>
+                            </h5>
+                        </div>
+                        <div class="col-md text-md-right">
+                            <small class="text-right">Status:</small>
+                            <span t-field="alert_id.state" class=" badge badge-pill badge-info" title="Current stage of this alert"/>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">Alert Subject</strong>
+                        <span class="col-lg-10" t-field="alert_id.subject"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">From</strong>
+                        <span class="col-lg-10" t-field="alert_id.email_from"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">To</strong>
+                        <span class="col-lg-10" t-field="alert_id.email_to"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">CC</strong>
+                        <span class="col-lg-10" t-field="alert_id.email_cc"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">Reply-To</strong>
+                        <span class="col-lg-10" t-field="alert_id.reply_to"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">Body</strong>
+                        <div t-if="alert_id.body_html" class="col-lg-10" t-field="alert_id.body_html"/>
+                        <div t-else="" class="col-lg-10">
+                            <em class="text-muted"><small>No Body available</small></em>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

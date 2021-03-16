@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>!
+    <data>
+        <!--Add New field in Alert form-->
+        <record id="x_alert_view_form" model="ir.ui.view">
+            <field name="name">x_alert.view.form</field>
+            <field name="model">x_alert</field>
+            <field name="arch" type="xml">
+                <form string="Alert message">
+                    <sheet>
+                        <field name="mail_message_id" required="0" invisible="1"/>
+                        <label for="subject" class="oe_edit_only"/>
+                        <h2><field name="subject"/></h2>
+                        <group>
+                            <field name="email_from"/>
+                            <field name="email_to"/>
+                            <field name="recipient_ids" widget="many2many_tags"/>
+                            <field name="email_cc"/>
+                            <field name="reply_to"/>
+                            <field name="scheduled_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Body" name="body">
+                                <field name="body_html" widget="html" options="{'style-inline': true}"/>
+                            </page>
+                            <page string="Advanced" name="advanced" groups="base.group_no_one">
+                                <group>
+                                    <group string="Status">
+                                        <field name="auto_delete"/>
+                                        <field name="notification"/>
+                                        <field name="message_type"/>
+                                        <field name="mail_server_id"/>
+                                        <field name="model"/>
+                                        <field name="res_id"/>
+                                    </group>
+                                    <group string="Headers">
+                                        <field name="message_id"/>
+                                        <field name="references"/>
+                                        <field name="headers"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Attachments" name="attachments">
+                                <field name="attachment_ids"/>
+                            </page>
+                            <page string="Failure Reason" name="failure_reason">
+                                <field name="failure_reason"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="x_alert_view_tree" model="ir.ui.view">
+            <field name="name">x_alert.view.tree</field>
+            <field name="model">x_alert</field>
+            <field name="arch" type="xml">
+                <tree string="Alerts">
+                    <field name="date"/>
+                    <field name="subject"/>
+                    <field name="author_id" string="User"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="x_alert_actions" model="ir.actions.act_window">
+            <field name="name">Alerts</field>
+            <field name="res_model">x_alert</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="x_alert_main_menu" action="x_alert_actions"
+                  sequence="10"/>
+        <menuitem id="x_alert_menu" action="x_alert_actions"
+                  parent="x_alert_main_menu" sequence="10"/>
+
+    </data>
+</odoo>
