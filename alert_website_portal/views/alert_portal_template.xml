@@ -58,11 +58,11 @@
         <t t-call="portal.portal_layout">
             <t t-set="wrapwrap_classes" t-value="'o_portal_bg_dark'"/>
 
-            <t t-set="o_portal_fullwidth_alert">
-                <t t-call="portal.portal_back_in_edit_mode">
-                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=x_alert&amp;id=%s&amp;view_type=form' % (alert_id.id)"/>
-                </t>
-            </t>
+<!--            <t t-set="o_portal_fullwidth_alert">-->
+<!--                <t t-call="portal.portal_back_in_edit_mode">-->
+<!--                    <t t-set="backend_url" t-value="'/web#return_label=Website&amp;model=x_alert&amp;id=%s&amp;view_type=form' % (alert_id.id)"/>-->
+<!--                </t>-->
+<!--            </t>-->
 
             <t t-call="portal.portal_record_layout">
                 <t t-set="card_header">
@@ -88,21 +88,21 @@
                         <strong class="col-lg-2">From</strong>
                         <span class="col-lg-10" t-field="alert_id.email_from"/>
                     </div>
-                    <div class="row mb-4">
-                        <strong class="col-lg-2">To</strong>
-                        <span class="col-lg-10" t-field="alert_id.email_to"/>
-                    </div>
-                    <div class="row mb-4">
-                        <strong class="col-lg-2">CC</strong>
-                        <span class="col-lg-10" t-field="alert_id.email_cc"/>
-                    </div>
-                    <div class="row mb-4">
-                        <strong class="col-lg-2">Reply-To</strong>
-                        <span class="col-lg-10" t-field="alert_id.reply_to"/>
-                    </div>
+<!--                    <div class="row mb-4">-->
+<!--                        <strong class="col-lg-2">To</strong>-->
+<!--                        <span class="col-lg-10" t-field="alert_id.email_to"/>-->
+<!--                    </div>-->
+<!--                    <div class="row mb-4">-->
+<!--                        <strong class="col-lg-2">CC</strong>-->
+<!--                        <span class="col-lg-10" t-field="alert_id.email_cc"/>-->
+<!--                    </div>-->
+<!--                    <div class="row mb-4">-->
+<!--                        <strong class="col-lg-2">Reply-To</strong>-->
+<!--                        <span class="col-lg-10" t-field="alert_id.reply_to"/>-->
+<!--                    </div>-->
                     <div class="row mb-4">
                         <strong class="col-lg-2">Body</strong>
-                        <div t-if="alert_id.body_html" class="col-lg-10" t-field="alert_id.body_html"/>
+                        <div t-if="alert_id.body_html" class="col-lg-10" t-raw="alert_id.body_html"/>
                         <div t-else="" class="col-lg-10">
                             <em class="text-muted"><small>No Body available</small></em>
                         </div>

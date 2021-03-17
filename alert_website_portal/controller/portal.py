@@ -32,7 +32,7 @@ class CustomerPortal(CustomerPortal):
 
         searchbar_sortings = {
             'date': {'label': _('Newest'), 'order': 'create_date desc'},
-            'name': {'label': _('Subject'), 'order': 'name'},
+            'subject': {'label': _('Subject'), 'order': 'subject'},
         }
         searchbar_inputs = {
             'content': {'input': 'content', 'label': _('Search <span class="nolabel"> (in Content)</span>')},
