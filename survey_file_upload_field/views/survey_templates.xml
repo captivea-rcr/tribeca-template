@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<template id="upload_file" name="Upload File">
-		<input type="file" class="form-control" t-att-multiple="question.upload_multiple_file" t-att-name="prefix"/>
+		<input type="file" class="form-control" t-att-multiple="question.upload_multiple_file"
+			   t-att-name="question.id" t-att-data-question-type="question.question_type"/>
     </template>
 
     <template id="review_upload_file" name="Review Upload File">
-    	<div class="file_container" t-att-name="prefix" file="true"></div>
+    	<div t-att-name="prefix" file="true" t-foreach='answer_lines[0].user_binary_line' t-as='attachment'>
+			<a t-attf-href="/web/content/survey.binary/#{attachment.id}/binary_data?download=true&amp;access_token=#{attachment.access_token}">
+				<t t-raw='attachment.binary_filename'/>
+				<i class="fa fa-download" style="height:10px;width:50px;margin-left:20px;margin-top:5px;"/>
+			</a>
+		</div>
     </template>
 
-<!--    <template id="page" name="Page" inherit_id="survey.page">-->
-<!--		<xpath expr="//form[hasclass('js_surveyform')]" position="attributes">-->
-<!--			<attribute name="enctype">multipart/form-data</attribute>-->
-<!--		</xpath>-->
-<!--    </template>-->
-
     <template id="question" name="Question" inherit_id="survey.question_container">
-		<xpath expr="//div[hasclass('js_question-wrapper')]/t[last()]" position="after">
+		<xpath expr="//div[1]/t[last()]" position="after">
 			<t t-if="question.question_type == 'upload_file'"><t t-call="survey_file_upload_field.upload_file"/></t>
 		</xpath>
     </template>
 
-    <template id="survey_print" name="Survey" inherit_id="survey.survey.survey_page_print">
-    	<xpath expr="//div[hasclass('js_surveyform')]/t/t/div[hasclass('js_question-wrapper')]" position="inside">
+    <template id="survey_page_print" name="Survey" inherit_id="survey.survey_page_print">
+    	<xpath expr="//div[hasclass('js_question-wrapper')]" position="inside">
 			<t t-if="question.question_type == 'upload_file'"><t t-call="survey_file_upload_field.review_upload_file"/></t>
 		</xpath>
     </template>
