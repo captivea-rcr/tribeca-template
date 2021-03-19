@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="portal_layout" name="Portal layout: Job Photo menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'Job Photo' or job_photo_id" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not job_photo_id else ''}">
+                <t>Job Photo</t>
+            </li>
+            <li t-if="job_photo_id" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                <t t-esc="job_photo_id.x_name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_job_photos_project" name="Job Photos">
+        <div t-if="not project.x_studio_job_photos" class="alert alert-info">
+            There are currently no Job Photos in your Projects.
+        </div>
+        <t t-if="project.x_studio_job_photos" t-call="portal.portal_table">
+            <thead>
+                <tr>
+                    <th class="text-center">Name</th>
+                    <th class="w-100">Task</th><th/>
+<!--                    <th class="w-100">File</th><th/>-->
+                    <th class="text-center">Notes</th>
+                </tr>
+            </thead>
+            <t t-foreach="project.x_studio_job_photos" t-as="job_photo">
+                <tr>
+                    <td class="text-center"><a t-attf-href="/job_photo/#{job_photo.id}"><t t-esc="job_photo.x_name"/></a></td>
+                    <td><a t-attf-href="/job_photo/#{job_photo.id}"><span t-field="job_photo.x_studio_task.name"/></a></td><td/>
+<!--                    <td><a t-attf-href="/job_photo/#{job_photo.id}"><span t-raw="job_photo.x_studio_photo"/></a></td><td/>-->
+                    <td class="text-center"><a t-attf-href="/job_photo/#{job_photo.id}"><span t-field="job_photo.x_studio_notes"/></a></td><td/>
+                </tr>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_project_inherit" name="My Project" inherit_id="project.portal_my_project">
+        <xpath expr="//t[@t-set='card_body']" position="inside">
+            <hr class="mb-1"/>
+            <div class="row">
+                <strong class="mt-3 mb-2">Job Photos</strong>
+                <t t-call="project_website_portal.portal_job_photos_project"/>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_job_photos_tasks" name="Job Photos">
+        <div t-if="not task.x_studio_job_photos" class="alert alert-info">
+            There are currently no Job Photos in your Tasks.
+        </div>
+        <t t-if="task.x_studio_job_photos" t-call="portal.portal_table">
+            <thead>
+                <tr>
+                    <th class="text-center">Name</th>
+                    <th class="w-100">Project</th><th/>
+<!--                    <th class="w-100">File</th><th/>-->
+                    <th class="text-center">Notes</th>
+                </tr>
+            </thead>
+            <t t-foreach="task.x_studio_job_photos" t-as="job_photo">
+                <tr>
+                    <td class="text-center"><a t-attf-href="/job_photo/#{job_photo.id}"><t t-esc="job_photo.x_name"/></a></td>
+                    <td><a t-attf-href="/job_photo/#{job_photo.id}"><span t-field="job_photo.x_studio_project.name"/></a></td><td/>
+<!--                    <td><a t-attf-href="/job_photo/#{job_photo.id}"><span t-raw="job_photo.x_studio_photo"/></a></td><td/>-->
+                    <td class="text-center"><a t-attf-href="/job_photo/#{job_photo.id}"><span t-field="job_photo.x_studio_notes"/></a></td><td/>
+                </tr>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_task_inherit" name="My Task" inherit_id="project.portal_my_task">
+        <xpath expr="//t[@t-set='card_body']" position="inside">
+            <hr class="mb-1"/>
+            <div class="row">
+                <strong class="mt-3 mb-2">Job Photos</strong>
+                <t t-call="project_website_portal.portal_job_photos_tasks"/>
+            </div>
+        </xpath>
+    </template>
+
+
+    <template id="job_photos_followups" name="Job Photos">
+        <t t-call="portal.portal_layout">
+            <t t-set="wrapwrap_classes" t-value="'o_portal_bg_dark'"/>
+
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-md">
+                            <h5 class="mb-1 mb-md-0">
+                                <span t-field="job_photo_id.x_name"/>
+                                <small class="text-muted"> (#<span t-field="job_photo_id.id"/>)</small>
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">Project:</strong>
+                        <a class="col-lg-10" t-attf-href="/my/project/#{job_photo_id.x_studio_project.id}" t-field="job_photo_id.x_studio_project.name"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">Task:</strong>
+                        <a class="col-lg-10" t-attf-href="/my/task/#{job_photo_id.x_studio_task.id}" t-field="job_photo_id.x_studio_task.name"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">Name</strong>
+                        <span class="col-lg-10" t-field="job_photo_id.x_name"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">File</strong>
+                        <img class="img-responsive col-lg-10" t-if="job_photo_id.id" t-attf-src="/web/image/x_job_photos/#{job_photo_id.id}/x_studio_photo"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">customer</strong>
+                        <span class="col-lg-10" t-field="job_photo_id.x_studio_customer.name"/>
+                    </div>
+                    <div class="row mb-4">
+                        <strong class="col-lg-2">Notes</strong>
+                        <span class="col-lg-10" t-field="job_photo_id.x_studio_notes"/>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
