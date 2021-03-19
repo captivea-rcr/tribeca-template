@@ -3,7 +3,7 @@
 
     <template id="portal_my_home_menu_alert" name="Portal layout : Alert menu entries" inherit_id="portal.portal_breadcrumbs" priority="50">
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
-            <li t-if="page_name == 'Alert' or 'x_alert'" t-attf-class="breadcrumb-item #{'active ' if not alert_id else ''}">
+            <li t-if="page_name == 'Alert' or alert_id" t-attf-class="breadcrumb-item #{'active ' if not alert_id else ''}">
                 <a t-if="alert_id" t-attf-href="/my/alerts?{{ keep_query() }}">Alerts</a>
                 <t t-else="">Alerts</t>
             </li>
