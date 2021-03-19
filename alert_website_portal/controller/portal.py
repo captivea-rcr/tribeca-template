@@ -19,7 +19,7 @@ class CustomerPortal(CustomerPortal):
 
     def _alert_get_page_view_values(self, alert_id, access_token, **kwargs):
         values = {
-            'page_name': 'x_alert',
+            'page_name': 'Alert',
             'alert_id': alert_id,
         }
         return self._get_page_view_values(alert_id, access_token, values, 'alert_history', False, **kwargs)
