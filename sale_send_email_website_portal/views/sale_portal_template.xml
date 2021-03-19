@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="sale_order_portal_template_inherit" name="Sales Order Portal Template" inherit_id="sale.sale_order_portal_template">
+        <xpath expr="//div[hasclass('o_download_pdf')]" position="after">
+            <div t-if="sale_order.state in ['draft', 'sent']" class="btn-group flex-grow-1 mt-1 mr-1 mb-1" style="text-align: center;display: block;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Send By Email</button>
+            </div>
+            <div class="modal" id="myModal" style="margin-top: 100px;">
+                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Send Email</h4>
+                            <button type="button" class="close" data-dismiss="modal">&amp;times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="row mb-4">
+                                <strong class="col-lg-3">Recipients </strong>
+                                <span class="col-lg-9" t-field="sale_order.partner_id.name"/>
+                            </div>
+                            <div class="row mb-4">
+                                <strong class="col-lg-2">Subject:</strong>
+                                <span class="col-lg-10">Tribeca Order (Ref <t t-esc="sale_order.name"/>)</span>
+                            </div>
+                            <div class="row mb-4">
+                                <strong class="col-lg-2">Body</strong>
+                                <span class="col-lg-10">
+                                    Dear Customer,<br/><br/>
+
+Thank You for choosing TriBeCa Flooring, Your premier turn-key Wood Flooring Solution. Attached you will find the estimates for <t t-esc="sale_order.partner_id.contact_address"/> for your review.<br/><br/>
+
+Please contact us with any questions or comments regarding your estimates.We are a pay-as-you-go service business.<br/><br/>
+
+Please contact us with your payment when you are ready to schedule your job. CREDIT CARD PAYMENTS ARE SUBJECT TO A 3% document processing fee.<br/><br/>
+
+All jobs may commence a minimum of 36 hours after your payment was received and/or 36 hours after materials have been delivered, when applicable.<br/><br/>
+
+We look forward to working with you.<br/><br/>
+
+Thank You. Good Day.
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <a type="button" class="btn btn-primary" t-attf-href="/sale/send_email/#{sale_order.id}">Send Email</a>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
