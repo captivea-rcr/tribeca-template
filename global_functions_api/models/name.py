@@ -7,7 +7,7 @@ from datetime import datetime
 import requests
 from odoo import _, api, exceptions, fields, models, modules
 from odoo.addons.base.models.res_users import is_selection_groups
-from odoo.addons.mail.models import res_users
+from odoo.addons.mail.models.res_users import *
 
 
 class BaseModelExtend(AbstractModel):
@@ -85,7 +85,7 @@ class BaseModelExtend(AbstractModel):
         description = item['weather'][0]['description']
         return {"Time":time,"Weather":weather,"Description":description,"Temperature":temperature,"Location":location_data}
 
-class override (models.Model):
+class override (Users):
     _inherit = 'res.users'
     @api.model_create_multi
     def create(self, vals_list):
