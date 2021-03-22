@@ -5,6 +5,9 @@
 from odoo.models import *
 from datetime import datetime
 import requests
+from odoo import _, api, exceptions, fields, models, modules
+from odoo.addons.base.models.res_users import is_selection_groups
+from odoo.addons.mail.models.res_users import *
 
 
 class BaseModelExtend(AbstractModel):
@@ -81,3 +84,12 @@ class BaseModelExtend(AbstractModel):
         weather = item['weather'][0]['main']
         description = item['weather'][0]['description']
         return {"Time":time,"Weather":weather,"Description":description,"Temperature":temperature,"Location":location_data}
+
+class override (Users):
+    _inherit = 'res.users'
+    @api.model_create_multi
+    def create(self, vals_list):
+        users = super(Users, self).create(vals_list)
+        # Auto-subscribe to channels
+        self.env['mail.channel'].search([('group_ids', 'in', users.groups_id.ids)])._subscribe_users()
+        return users
