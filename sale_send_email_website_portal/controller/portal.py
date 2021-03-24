@@ -108,6 +108,7 @@ class CustomerPortal(CustomerPortal):
                   toString(sale_order.partner_id.state_id.name) + "," + toString(sale_order.partner_id.zip) + \
                   "," + toString(sale_order.partner_id.country_id.name)
         while ',,' in address:address=address.replace(',,',',')
+        address=address.replace(',',', ')
         body = """
         Dear Customer,<br/><br/>
 
