@@ -24,9 +24,11 @@ class CustomerPortal(CustomerPortal):
             'custom_layout': "mail.mail_notification_paynow",
             'force_email': True,
         }
-        address = sale_order.partner_id.street + "," + sale_order.partner_id.city + "," + \
-                  sale_order.partner_id.state_id.name + "," + sale_order.partner_id.zip + \
-                  "," + sale_order.partner_id.country_id.name
+        toString = lambda a : '' if not a else str(a)
+        address = toString(sale_order.partner_id.street) + "," + toString(sale_order.partner_id.city) + "," + \
+                  toString(sale_order.partner_id.state_id.name) + "," + toString(sale_order.partner_id.zip) + \
+                  "," + toString(sale_order.partner_id.country_id.name)
+        while ',,' in address:address=address.replace(',,',',')
         body = """
         Dear Customer,<br/><br/>
 
