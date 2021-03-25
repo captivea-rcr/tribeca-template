@@ -177,7 +177,7 @@ publicWidget.registry.SurveyFormWidget.include({
                     var data = upload.target.result;
                     doc_list.push(data.split(',')[1]);
                     params[$DocumentTable[0].name] = doc_list
-                    ajax.jsonRpc('/web/dataset/call_kw', 'call', {
+                    ajax.jsonRpc('/web/dataset/call_kw_survey', 'call', {
                         model: 'survey.user_input',
                         method: 'search',
                         args: [[['access_token', '=', params['token']]]],
@@ -187,7 +187,7 @@ publicWidget.registry.SurveyFormWidget.include({
                             'user_input_id': rec[0],
                             'question_id': parseInt($DocumentTable[0].name),
                         }
-                        ajax.jsonRpc('/web/dataset/call_kw', 'call', {
+                        ajax.jsonRpc('/web/dataset/call_kw_survey', 'call', {
                             model: 'survey.user_input.line',
                             method: 'search',
                             args: [[['question_id', '=', parseInt($DocumentTable[0].name)],
@@ -200,7 +200,7 @@ publicWidget.registry.SurveyFormWidget.include({
                                     'binary_filename' : file.name,
                                     'binary_data' : data.split(',')[1],
                                 };
-                                ajax.jsonRpc('/web/dataset/call_kw', 'call', {
+                                ajax.jsonRpc('/web/dataset/call_kw_survey', 'call', {
                                     model: 'survey.binary',
                                     method: 'create',
                                     args: [values],
@@ -208,7 +208,7 @@ publicWidget.registry.SurveyFormWidget.include({
                                 }).then(function(binary_rec) {
                                 });
                             }else{
-                                ajax.jsonRpc('/web/dataset/call_kw', 'call', {
+                                ajax.jsonRpc('/web/dataset/call_kw_survey', 'call', {
                                     model: 'survey.user_input.line',
                                     method: 'create',
                                     args: [vals],
@@ -219,7 +219,7 @@ publicWidget.registry.SurveyFormWidget.include({
                                         'binary_filename' : file.name,
                                         'binary_data' : data.split(',')[1],
                                     };
-                                    ajax.jsonRpc('/web/dataset/call_kw', 'call', {
+                                    ajax.jsonRpc('/web/dataset/call_kw_survey', 'call', {
                                         model: 'survey.binary',
                                         method: 'create',
                                         args: [values],
