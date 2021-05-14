@@ -2,7 +2,7 @@
 <odoo>
 	<template id="upload_file" name="Upload File">
 		<input type="file" class="form-control" t-att-multiple="question.upload_multiple_file"
-			   t-att-name="question.id" t-att-data-question-type="question.question_type"/>
+			   t-att-name="question.id" t-att-data-question-type="question.question_type" accept="image/*,application/pdf"/>
     </template>
 
     <template id="review_upload_file" name="Review Upload File">
