@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="estimate_thanks">
+        <t t-call="website.layout">
+            <div class="s_website_form_end_message">
+                <div class="oe_structure">
+                    <section class="s_text_block pt64 pb64 o_colored_level o_cc o_cc2" data-snippet="s_text_block" data-name="Text">
+                        <div class="container">
+                            <h2 class="text-center">
+                                <span class="fa fa-check-circle" data-original-title="" title="" aria-describedby="tooltip709101"/>
+                                Your estimate has been sent <br/><br/>
+                                <a t-att-href="survey.x_studio_link" target='current' class="btn btn-primary btn-lg">Continue to Estimate</a>
+                            </h2>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
