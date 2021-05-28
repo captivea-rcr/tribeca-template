@@ -30,29 +30,42 @@
             <t t-call="portal.portal_searchbar">
                 <t t-set="title">Master Control</t>
             </t>
-            <div t-if="not master_controls" class="alert alert-info">
+            <div t-if="not grouped_so" class="alert alert-info">
                 There are currently no Master Control records in your account.
             </div>
-            <t t-if="master_controls" t-call="portal.portal_table">
-                <thead>
-                    <tr>
-                        <th class="text-right">ID</th>
-                        <th class="w-100">Name</th><th/>
-                        <th class="w-100">Date</th><th/>
-                        <th class="w-100">Sales Order</th>
-                        <th class="w-100">Customer</th>
-                        <th class="text-center">Status</th>
-                    </tr>
-                </thead>
-                <t t-foreach="master_controls" t-as="rec">
-                    <tr>
-                        <td class="text-right"><a t-attf-href="/my/master_control/#{rec.id}"><small>#</small><t t-esc="rec.id"/></a></td>
-                        <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_name"/></a></td><td/>
-                        <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_date"/></a></td><td/>
-                        <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_sale_id"/></a></td>
-                        <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_partner_id"/></a></td>
-                        <td class="text-center"><span class="badge badge-pill badge-info" t-field="rec.x_status"/></td>
-                    </tr>
+            <t t-if="grouped_so" t-call="portal.portal_table">
+                <t t-foreach="grouped_so" t-as="recs">
+                    <thead>
+                        <tr>
+                            <th class="text-right">ID</th>
+                            <th t-if="groupby == 'sale_order'" class="w-100">
+                                <em class="font-weight-normal text-muted w-100">Master Control for Sale order:</em>
+                                <span t-field="recs[0].sudo().x_sale_id.name"/>
+                            </th>
+                            <th t-else="" class="w-100">
+                                <em class="font-weight-normal text-muted w-100">Name</em>
+                            </th><th/>
+                            <th class="w-100">Date</th><th/>
+                            <th class="w-100">Sales Order</th>
+                            <th class="w-100">Customer</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="recs" t-as="rec">
+                        <tr>
+                            <td class="text-right"><a t-attf-href="/my/master_control/#{rec.id}"><small>#</small><t t-esc="rec.id"/></a></td>
+                            <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_name"/></a></td><td/>
+                            <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_date"/></a></td><td/>
+                            <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_sale_id"/></a></td>
+                            <td><a t-attf-href="/my/master_control/#{rec.id}"><span t-field="rec.x_partner_id"/></a></td>
+                            <td class="text-center"><span class="badge badge-pill badge-info" t-field="rec.x_status"/></td>
+                            <td class="text-center">
+                                <a role="button" class="btn btn-primary py-1" t-att-href="rec.x_link" style="width:100px">
+                                    Open Link
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
                 </t>
             </t>
         </t>
@@ -103,15 +116,12 @@
                     </div>
                     <div class="row mb-4">
                         <strong class="col-lg-2">Link</strong>
-                        <span class="col-lg-10" t-field="master_control_id.x_link"/>
+                        <span class="col-lg-10">
+                            <a role="button" class="btn btn-primary py-1" t-att-href="master_control_id.x_link" style="width:100px">
+                                Open Link
+                            </a>
+                        </span>
                     </div>
-<!--                    <div class="row mb-4">-->
-<!--                        <strong class="col-lg-2">Body</strong>-->
-<!--                        <div t-if="master_control_id.body_html" class="col-lg-10" t-raw="master_control_id.body_html"/>-->
-<!--                        <div t-else="" class="col-lg-10">-->
-<!--                            <em class="text-muted"><small>No Body available</small></em>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </t>
             </t>
         </t>

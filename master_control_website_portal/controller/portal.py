@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-
+from operator import itemgetter
 from odoo import http
 from odoo.http import request
 from odoo.tools.translate import _
 from odoo.addons.portal.controllers.portal import pager as portal_pager, CustomerPortal
 from odoo.osv.expression import OR
+from odoo.tools import groupby as groupbyelem
 
 
 class CustomerPortal(CustomerPortal):
@@ -25,7 +26,7 @@ class CustomerPortal(CustomerPortal):
         return self._get_page_view_values(master_control_id, access_token, values, 'master_control_history', False, **kwargs)
 
     @http.route(['/my/master_control', '/my/master_control/page/<int:page>'], type='http', auth="user", website=True)
-    def my_master_control(self, page=1, date_begin=None, date_end=None, sortby=None, search=None, search_in='name', **kw):
+    def my_master_control(self, page=1, date_begin=None, date_end=None, sortby=None, search=None, search_in='name', groupby=None, **kw):
         values = self._prepare_portal_layout_values()
         user = request.env.user
         domain = []
@@ -39,8 +40,12 @@ class CustomerPortal(CustomerPortal):
             'customer': {'input': 'customer', 'label': _('Search in customer')},
             'appointment': {'input': 'appointment', 'label': _('Search in Appointment')},
             's_user_input': {'input': 's_user_input', 'label': _('Search in Survey User Input')},
-            'id': {'input': 'id', 'label': _('Search ID')},
             'all': {'input': 'all', 'label': _('Search in All')},
+        }
+
+        searchbar_groupby = {
+            'none': {'input': 'none', 'label': _('None')},
+            'sale_order': {'input': 'sale_order', 'label': _('Sales order')},
         }
 
         # default sort by value
@@ -48,20 +53,21 @@ class CustomerPortal(CustomerPortal):
             sortby = 'date'
         order = searchbar_sortings[sortby]['order']
 
+        if not groupby:
+            groupby = 'sale_order'
+
         if date_begin and date_end:
             domain += [('x_date', '>', date_begin), ('x_date', '<=', date_end)]
 
         # search
         if search and search_in:
             search_domain = []
-            if search_in in ('id', 'all'):
-                search_domain = OR([search_domain, [('id', '=', search)]])
             if search_in in ('customer', 'all'):
-                search_domain = OR([search_domain, [('x_partner_id', '=', search)]])
+                search_domain = OR([search_domain, [('x_partner_id.name', '=', search)]])
             if search_in in ('appointment', 'all'):
-                search_domain = OR([search_domain, [('x_appointment_id', '=', search)]])
+                search_domain = OR([search_domain, [('x_appointment_id.x_name', '=', search)]])
             if search_in in ('customer', 'all'):
-                search_domain = OR([search_domain, [('x_survey_user_input_id', '=', search)]])
+                search_domain = OR([search_domain, [('x_survey_user_input_id.survey_id.title', '=', search)]])
             if search_in in ('name', 'all'):
                 search_domain = OR([search_domain, [('x_name', 'ilike', search)]])
             domain += search_domain
@@ -70,24 +76,35 @@ class CustomerPortal(CustomerPortal):
         master_control_count = request.env['x_master_control'].search_count(domain)
         pager = portal_pager(
             url="/my/master_control",
-            url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby},
+            url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby, 'groupby': groupby},
             total=master_control_count,
             page=page,
             step=self._items_per_page
         )
 
+        if groupby == 'sale_order':
+            order = "x_sale_id, %s" % order
+
         master_control = request.env['x_master_control'].search(domain, order=order, limit=self._items_per_page, offset=pager['offset'])
         request.session['master_control_history'] = master_control.ids[:100]
 
+        if groupby == 'sale_order':
+            grouped_so = [request.env['x_master_control'].concat(*g) for k, g in groupbyelem(master_control, itemgetter('x_sale_id'))]
+        else:
+            grouped_so = [master_control]
+
         values.update({
             'date': date_begin,
+            'grouped_so': grouped_so,
             'master_controls': master_control,
             'page_name': 'Master Control',
             'default_url': '/my/master_control',
             'pager': pager,
             'searchbar_sortings': searchbar_sortings,
             'searchbar_inputs': searchbar_inputs,
+            'searchbar_groupby': searchbar_groupby,
             'sortby': sortby,
+            'groupby': groupby,
             'search_in': search_in,
             'search': search,
         })
